@@ -38,6 +38,7 @@ All `.cfg` files here are **automatically updated** on users' printers when they
 - `Xp_PLR_{1,2,4}xExtr.cfg` — Power Loss Recovery for each extruder count.
 - `Xp_Shell_Commands_*.cfg` — `[gcode_shell_command]` wrappers that invoke the scripts in `.8_Scripts/`.
 - `Xp_Mainsail.cfg` / `Xp_Moonraker.cfg` — Mainsail/Moonraker integration macros.
+- `Xp_Cartographer.cfg` — Cartographer/Beacon probe support (overrides `Z_SENSOR_PROBE_ONCE` etc. to detect whichever probe MCU is present). Not yet `[include]`d by any entry CFG in this repo — treat as in-progress/opt-in, not part of the active build for any variant.
 
 ### `02_Printer_cfg/` — reference / bootstrap configs
 
@@ -48,7 +49,8 @@ These are the `printer.cfg` templates users install manually once. They are **no
 These are deployed to `~/klipper/klippy/extras/` on the printer:
 
 - `trsync_patch.py` — patches `mcu.TRSYNC_TIMEOUT` from 0.025 → 0.050 to prevent multi-MCU sync errors on IQEX/2xGantry builds.
-- `xptools_calibrate.py` / `tools_calibrate.py` — multi-axis nozzle probe calibration for tool offset alignment (`[xptools_calibrate]` section).
+- `xptools_calibrate.py` / `tools_calibrate.py` — multi-axis nozzle probe calibration for tool offset alignment (`[xptools_calibrate]` / `[tools_calibrate]` sections respectively; `tools_calibrate` backs the 1x/2x-extruder and 2xGantry offset configs, `xptools_calibrate` backs the V1.1 IQEX offset config).
+- `idextools_calibrate.py` — present but not referenced by any `[include]`d CFG; appears to be superseded by `xptools_calibrate.py`.
 
 ### `.8_Scripts/` — shell scripts (run via gcode_shell_command)
 
@@ -60,6 +62,10 @@ These are deployed to `~/klipper/klippy/extras/` on the printer:
 ### `.9_MCU_Flash/` — MCU firmware flashing
 
 Scripts and Klipper `make menuconfig` snapshots for flashing the BTT Manta M8P (v1.1 / v2.0), BTT Pico (expansion), and BTT EBB36 (tool boards T0–T3). See `06_Manual/Flashing_MCUs_manually_KIAUH.pdf` for procedure.
+
+### `03_MODs/`, `04_Slicer_Profiles/`, `05_STEP_FILES/`, `06_Manual/`, `07_Mainsail_Settings/`
+
+Static, non-code assets also distributed through the Update Manager (Formbot mods, OrcaSlicer profiles, printable part STEPs, assembly manuals, Mainsail UI backups). Not relevant to Klipper config/macro work unless a task specifically references one of them.
 
 ## Key conventions
 
