@@ -50,6 +50,7 @@ These are deployed to `~/klipper/klippy/extras/` on the printer:
 
 - `trsync_patch.py` — patches `mcu.TRSYNC_TIMEOUT` from 0.025 → 0.050 to prevent multi-MCU sync errors on IQEX/2xGantry builds.
 - `xptools_calibrate.py` / `tools_calibrate.py` — multi-axis nozzle probe calibration for tool offset alignment (`[xptools_calibrate]` / `[tools_calibrate]` sections respectively; `tools_calibrate` backs the 1x/2x-extruder and 2xGantry offset configs, `xptools_calibrate` backs the V1.1 IQEX offset config).
+- `xpz_journal.py` — Power Loss Recovery support (`[xpz_journal]` in `Xp_Basic_Settings.cfg`). Records every Z-stepper move since Z was last homed (each `Z_TILT_ADJUST` pass and each `FORCE_MOVE` of a Z stepper); `SAVE_Z_JOURNAL` (IQEX `START_PRINT`) writes it to `~/printer_data/config/z_journal.json` and `REPLAY_Z_JOURNAL` (`_resume_z_state` in `Xp_PLR_4xExtr.cfg`) replays it after the resume's `G28`. Imports nothing from Klipper, so `[xplorer]` can import it for copying and it can be unit tested standalone.
 - `idextools_calibrate.py` — present but not referenced by any `[include]`d CFG; appears to be superseded by `xptools_calibrate.py`.
 
 ### `.8_Scripts/` — shell scripts (run via gcode_shell_command)
